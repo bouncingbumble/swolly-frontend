@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
 import Timer from './Timer'
+import { withRouter } from 'react-router-dom'
+import { apiCall } from './api'
 
-export default class App extends Component {
+class App extends Component {
+    state = {
+        workout: {
+            sections: []
+        }
+    }
+    constructor(props) {
+        super(props)
+        this.getWorkout()
+    }
     getRandomEmoji = () => {
         const emojis = ['💪', '🙏', '🏋', '️‍🥊', '🥇', '🏃‍♂️', '💸', '💯', '🎉', '🚵‍♀️']
         const ranNum = Math.floor(Math.random() * 10)
@@ -9,12 +20,18 @@ export default class App extends Component {
         return emojis[ranNum]
     }
 
+    getWorkout = async () => {
+        const workout = await apiCall(
+            'get',
+            `/workout/${this.props.match.params.id}`
+        )
+        this.setState({ workout })
+    }
+
     render() {
         const date = new Date()
         var month = new Array();
-        const workout = {
-            sections: []
-        }
+        const { workout } = this.state
         month[0] = "January";
         month[1] = "February";
         month[2] = "March";
@@ -90,4 +107,6 @@ export default class App extends Component {
         )
     }
 }
+
+export default withRouter(App)
 

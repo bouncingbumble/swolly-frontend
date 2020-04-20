@@ -2,11 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 ReactDOM.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <Router>
+        <Switch>
+            <Route
+                exact
+                path="/workout/:id"
+                render={routeProps => (<App {...routeProps} />)}
+            />
+            <Route
+                exact
+                path=""
+                render={routeProps => (<App {...routeProps} />)}
+            />
+
+        </Switch>
+    </Router>
     , document.getElementById('root')
 );
